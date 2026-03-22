@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>King Claw — AI Agent Platform, Deployed &amp; Managed For Your Business</title>
+  <meta name="description" content="OpenClaw is the world's most powerful open-source AI agent platform. King Claw deploys, customises, and manages it for Australian businesses — from aviation to healthcare." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral:   #ff5c5c;
+      --teal:    #14b8a6;
+      --dark:    #0e1015;
+      --bg:      #FAFAF9;
+      --alt:     #F1F5F9;
+      --text:    #1E293B;
+      --muted:   #64748B;
+      --border:  #E2E8F0;
+      --radius:  14px;
+      --shadow:  0 4px 24px rgba(14,16,21,0.08);
+      --shadow-lg: 0 12px 48px rgba(14,16,21,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.2;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* ── UTILITIES ─────────────────────────────────────────── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .section    { padding: 96px 0; }
+    .section-alt  { background: var(--alt); }
+    .section-dark { background: var(--dark); color: #fff; }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--coral); background: rgba(255,92,92,0.1);
+      padding: 6px 14px; border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px; font-weight: 700;
+      cursor: pointer; border: none; transition: all 0.18s ease;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--coral); color: #fff; }
+    .btn-primary:hover { background: #e64d4d; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,92,92,0.35); }
+    .btn-outline { background: transparent; color: var(--text); border: 2px solid var(--border); }
+    .btn-outline:hover { border-color: var(--coral); color: var(--coral); transform: translateY(-2px); }
+    .btn-teal { background: var(--teal); color: #fff; }
+    .btn-teal:hover { background: #0ea594; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(20,184,166,0.35); }
+    .btn-ghost-white { background: rgba(255,255,255,0.12); color: #fff; border: 2px solid rgba(255,255,255,0.25); }
+    .btn-ghost-white:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+
+    .fade-in { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── NAV ───────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      padding: 0 24px;
+    }
+    nav.scrolled { border-color: var(--border); box-shadow: 0 2px 16px rgba(14,16,21,0.07); }
+    .nav-inner {
+      max-width: 1140px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px; font-weight: 800;
+      color: var(--dark);
+    }
+    .nav-logo .lobster { font-size: 24px; }
+    .nav-links {
+      display: flex; align-items: center; gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 15px; font-weight: 500; color: var(--muted);
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { margin-left: 16px; }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; inset: 0; top: 68px; z-index: 99;
+      background: var(--bg);
+      padding: 32px 24px;
+      flex-direction: column; gap: 24px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 20px; font-weight: 600; color: var(--text); }
+
+    /* ── HERO ──────────────────────────────────────────────── */
+    .hero {
+      padding: 88px 0 72px;
+      background: var(--bg);
+      overflow: hidden;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .hero-kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--teal); background: rgba(20,184,166,0.1);
+      padding: 7px 16px; border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+    .hero h1 em { font-style: normal; color: var(--coral); }
+    .hero p {
+      font-size: 18px; color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 36px;
+    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
+    .trust-row {
+      display: flex; gap: 28px; flex-wrap: wrap;
+      font-size: 13px; font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .trust-row span {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .trust-row span::before {
+      content: '';
+      display: inline-block; width: 7px; height: 7px;
+      border-radius: 50%; background: var(--teal);
+    }
+
+    /* Terminal */
+    .terminal {
+      background: #0e1015;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255,255,255,0.06);
+      font-family: 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
+      font-size: 13px;
+      user-select: none;
+    }
+    .terminal-bar {
+      background: #1a1e27;
+      padding: 14px 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .terminal-dot { width: 13px; height: 13px; border-radius: 50%; }
+    .terminal-dot.red    { background: #ff5f57; }
+    .terminal-dot.yellow { background: #ffbd2e; }
+    .terminal-dot.green  { background: #28c941; }
+    .terminal-title { margin-left: auto; font-size: 12px; color: #4a5568; }
+    .terminal-body { padding: 24px 20px; min-height: 360px; }
+
+    .t-line {
+      display: flex; align-items: baseline;
+      margin-bottom: 6px;
+      opacity: 0;
+      animation: tline 0.01s forwards;
+    }
+    .t-prompt    { color: #ff5c5c; }
+    .t-cmd       { color: #e2e8f0; }
+    .t-out       { color: #94a3b8; }
+    .t-ok        { color: #28c941; }
+    .t-info      { color: #14b8a6; }
+    .t-dim       { color: #4a5568; }
+    .t-highlight { color: #fbbf24; }
+    .t-blank     { height: 10px; display: block; }
+
+    @keyframes tline { to { opacity: 1; } }
+    .t-line:nth-child(1)  { animation-delay: 0.2s; }
+    .t-line:nth-child(2)  { animation-delay: 0.7s; }
+    .t-line:nth-child(3)  { animation-delay: 1.1s; }
+    .t-line:nth-child(4)  { animation-delay: 1.5s; }
+    .t-line:nth-child(5)  { animation-delay: 1.8s; }
+    .t-line:nth-child(6)  { animation-delay: 2.1s; }
+    .t-line:nth-child(7)  { animation-delay: 2.5s; }
+    .t-line:nth-child(8)  { animation-delay: 2.9s; }
+    .t-line:nth-child(9)  { animation-delay: 3.2s; }
+    .t-line:nth-child(10) { animation-delay: 3.5s; }
+    .t-line:nth-child(11) { animation-delay: 3.9s; }
+    .t-line:nth-child(12) { animation-delay: 4.2s; }
+    .t-line:nth-child(13) { animation-delay: 4.5s; }
+    .t-line:nth-child(14) { animation-delay: 4.8s; }
+    .t-line:nth-child(15) { animation-delay: 5.1s; }
+    .t-line:nth-child(16) { animation-delay: 5.4s; }
+    .t-line:nth-child(17) { animation-delay: 5.7s; }
+    .t-line:nth-child(18) { animation-delay: 6.0s; }
+    .t-line:nth-child(19) { animation-delay: 6.3s; }
+    .t-line:nth-child(20) { animation-delay: 6.6s; }
+
+    .cursor {
+      display: inline-block; width: 8px; height: 15px;
+      background: var(--coral); vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── MARKET STATS STRIP ────────────────────────────────── */
+    .stats-strip {
+      background: var(--dark);
+      padding: 40px 0;
+    }
+    .stats-strip-inner {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; flex-wrap: wrap;
+    }
+    .strip-stat {
+      text-align: center;
+      padding: 12px 40px;
+      position: relative;
+    }
+    .strip-stat:not(:last-child)::after {
+      content: '';
+      position: absolute; right: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 1px; height: 40px;
+      background: rgba(255,255,255,0.1);
+    }
+    .strip-stat .num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 28px; font-weight: 800;
+      color: var(--coral);
+    }
+    .strip-stat .lbl { font-size: 13px; color: #94a3b8; margin-top: 2px; }
+
+    /* ── WHAT IS OPENCLAW ──────────────────────────────────── */
+    .what-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 52px;
+    }
+    .what-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .what-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+    .what-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: rgba(255,92,92,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+    .what-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--dark); }
+    .what-card p  { font-size: 15px; color: var(--muted); line-height: 1.55; }
+
+    .github-stats {
+      margin-top: 48px;
+      display: flex; align-items: center; justify-content: center; gap: 40px;
+      padding: 28px 36px;
+      background: var(--dark);
+      border-radius: var(--radius);
+      color: #fff;
+      flex-wrap: wrap;
+    }
+    .gh-stat { text-align: center; }
+    .gh-stat .num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 26px; font-weight: 800;
+      color: var(--coral);
+    }
+    .gh-stat .lbl { font-size: 13px; color: #94a3b8; margin-top: 2px; }
+    .gh-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.1); }
+
+    /* ── WHY YOU NEED US ───────────────────────────────────── */
+    .why-lead {
+      max-width: 700px;
+      margin: 0 auto 48px;
+      text-align: center;
+    }
+    .why-lead p { font-size: 20px; color: var(--muted); margin-top: 16px; }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .why-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .why-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--coral);
+      border-radius: 4px 0 0 4px;
+    }
+    .why-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--dark); }
+    .why-card p  { font-size: 16px; color: var(--muted); line-height: 1.55; }
+
+    .why-cta {
+      margin-top: 52px;
+      text-align: center;
+      padding: 36px;
+      background: linear-gradient(135deg, rgba(255,92,92,0.08) 0%, rgba(20,184,166,0.08) 100%);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,92,92,0.15);
+    }
+    .why-cta p { font-size: 20px; font-weight: 600; color: var(--dark); }
+
+    /* ── HOW IT WORKS ──────────────────────────────────────── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 56px;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 36px; left: calc(16.66% + 16px); right: calc(16.66% + 16px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--coral), var(--teal));
+      z-index: 0;
+    }
+    .step { text-align: center; position: relative; z-index: 1; }
+    .step-num {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 3px solid var(--coral);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px; font-weight: 800;
+      color: var(--coral);
+      margin: 0 auto 24px;
+      position: relative;
+    }
+    .step-num::after {
+      content: '';
+      position: absolute; inset: -6px;
+      border-radius: 50%;
+      background: rgba(255,92,92,0.08);
+    }
+    .step h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: var(--dark); }
+    .step p  { font-size: 16px; color: var(--muted); line-height: 1.6; }
+
+    /* ── WHAT YOU GET ──────────────────────────────────────── */
+    .get-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 52px;
+    }
+    .get-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .get-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+    .get-icon { font-size: 28px; margin-bottom: 14px; }
+    .get-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--dark); }
+    .get-card p  { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+    /* ── ROI BAND ───────────────────────────────────────────── */
+    .roi-band {
+      background: linear-gradient(135deg, rgba(255,92,92,0.06) 0%, rgba(20,184,166,0.06) 100%);
+      border: 1px solid rgba(255,92,92,0.12);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      margin-top: 52px;
+      text-align: center;
+    }
+    .roi-band h3 {
+      font-size: 22px; font-weight: 800; color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .roi-band .roi-sub {
+      font-size: 16px; color: var(--muted); margin-bottom: 36px;
+    }
+    .roi-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .roi-stat { }
+    .roi-stat .roi-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 32px; font-weight: 800;
+      color: var(--coral);
+    }
+    .roi-stat .roi-lbl {
+      font-size: 14px; color: var(--muted); margin-top: 4px;
+    }
+
+    /* ── INDUSTRIES ────────────────────────────────────────── */
+    .industry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .industry-tile {
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      background: #fff;
+      border: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 18px;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+      cursor: default;
+    }
+    .industry-tile:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+      border-color: var(--teal);
+    }
+    .industry-icon { font-size: 32px; flex-shrink: 0; }
+    .industry-tile h3 { font-size: 17px; font-weight: 700; margin-bottom: 4px; color: var(--dark); }
+    .industry-tile p  { font-size: 14px; color: var(--muted); line-height: 1.5; }
+    .industry-tile .industry-stat {
+      margin-top: 10px;
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 600; color: var(--teal);
+      background: rgba(20,184,166,0.08);
+      padding: 4px 10px; border-radius: 100px;
+    }
+
+    .industry-note {
+      margin-top: 36px; text-align: center;
+      font-size: 17px; color: var(--muted);
+      max-width: 680px; margin-left: auto; margin-right: auto;
+      margin-top: 36px;
+    }
+
+    /* ── PRICING ───────────────────────────────────────────── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+      align-items: stretch;
+    }
+    .pricing-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 36px 32px 40px;
+      display: flex; flex-direction: column;
+      position: relative;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .pricing-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+    .pricing-card.popular {
+      border-color: var(--coral);
+      border-width: 2px;
+      box-shadow: 0 8px 40px rgba(255,92,92,0.15);
+    }
+    .popular-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--coral); color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 6px 20px; border-radius: 100px;
+      white-space: nowrap;
+    }
+    .pricing-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 22px; font-weight: 800;
+      color: var(--dark); margin-bottom: 6px;
+    }
+    .pricing-tagline { font-size: 15px; color: var(--muted); margin-bottom: 28px; }
+    .price-setup {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 32px; font-weight: 800;
+      color: var(--dark);
+    }
+    .price-setup small { font-size: 16px; font-weight: 500; color: var(--muted); }
+    .price-monthly {
+      font-size: 16px; color: var(--muted);
+      margin-bottom: 28px; margin-top: 6px;
+    }
+    .price-monthly strong { color: var(--dark); font-weight: 700; }
+    .pricing-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 24px; }
+    .pricing-features {
+      list-style: none; flex: 1;
+      display: flex; flex-direction: column; gap: 12px;
+      margin-bottom: 32px;
+    }
+    .pricing-features li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 15px; color: var(--text); line-height: 1.5;
+    }
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--teal); font-weight: 700;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .pricing-features .section-label {
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--muted); padding-top: 6px;
+    }
+    .pricing-features .section-label::before { display: none; }
+
+    .pricing-note {
+      text-align: center; margin-top: 32px;
+      font-size: 15px; color: var(--muted);
+    }
+
+    /* Free Mac Mini callout */
+    .free-mac-banner {
+      display: flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #ff5c5c 0%, #e64d4d 100%);
+      color: #fff;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .free-mac-banner .mac-icon { font-size: 22px; flex-shrink: 0; }
+    .free-mac-banner .mac-text { display: flex; flex-direction: column; }
+    .free-mac-banner .mac-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      opacity: 0.85;
+    }
+    .free-mac-banner .mac-value {
+      font-size: 16px; font-weight: 800; line-height: 1.2;
+    }
+    .free-mac-banner .mac-badge {
+      margin-left: auto; flex-shrink: 0;
+      background: rgba(255,255,255,0.2);
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 4px 10px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.35);
+    }
+    .hardware-note {
+      font-size: 13px; color: var(--muted);
+      margin-bottom: 20px;
+      padding: 10px 14px;
+      background: var(--alt);
+      border-radius: 8px;
+      line-height: 1.5;
+    }
+
+    /* ── COMPETITOR COMPARE ─────────────────────────────────── */
+    .compare-table-wrap {
+      margin-top: 48px;
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+    .compare-table thead th {
+      padding: 18px 20px;
+      text-align: left;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px; font-weight: 700;
+      background: var(--dark); color: #fff;
+      white-space: nowrap;
+    }
+    .compare-table thead th.highlight {
+      background: var(--coral); color: #fff;
+    }
+    .compare-table tbody tr { border-bottom: 1px solid var(--border); }
+    .compare-table tbody tr:last-child { border-bottom: none; }
+    .compare-table tbody tr:nth-child(even) { background: var(--alt); }
+    .compare-table tbody td {
+      padding: 14px 20px; color: var(--text); vertical-align: middle;
+    }
+    .compare-table tbody td.highlight {
+      background: rgba(255,92,92,0.05);
+      font-weight: 600; color: var(--coral);
+    }
+    .compare-table tbody td.check { color: var(--teal); font-size: 18px; }
+    .compare-table tbody td.cross { color: #cbd5e1; font-size: 18px; }
+    .compare-note {
+      margin-top: 16px; text-align: center;
+      font-size: 14px; color: var(--muted);
+    }
+
+    /* ── TESTIMONIALS ──────────────────────────────────────── */
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 52px;
+    }
+    .testi-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: box-shadow 0.2s;
+    }
+    .testi-card:hover { box-shadow: var(--shadow); }
+    .testi-stars { display: flex; gap: 4px; margin-bottom: 18px; font-size: 18px; color: #fbbf24; }
+    .testi-quote {
+      font-size: 17px; line-height: 1.65;
+      color: var(--text); margin-bottom: 24px;
+      font-style: italic;
+    }
+    .testi-author { display: flex; align-items: center; gap: 14px; }
+    .testi-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--coral), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700; color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      flex-shrink: 0;
+    }
+    .testi-name { font-weight: 700; font-size: 15px; color: var(--dark); }
+    .testi-role { font-size: 13px; color: var(--muted); }
+    .testi-roi {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 14px;
+      font-size: 13px; font-weight: 700; color: var(--teal);
+      background: rgba(20,184,166,0.08);
+      padding: 4px 12px; border-radius: 100px;
+    }
+
+    /* ── FAQ ───────────────────────────────────────────────── */
+    .faq-list {
+      max-width: 800px; margin: 52px auto 0;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .faq-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+      padding: 22px 28px;
+      background: none; border: none;
+      text-align: left; cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 17px; font-weight: 700;
+      color: var(--dark);
+      transition: color 0.15s;
+    }
+    .faq-question:hover { color: var(--coral); }
+    .faq-question.open  { color: var(--coral); }
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--alt);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.25s, background 0.15s;
+    }
+    .faq-question.open .faq-chevron {
+      transform: rotate(180deg);
+      background: rgba(255,92,92,0.12);
+    }
+    .faq-chevron svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .faq-answer.open { max-height: 400px; }
+    .faq-answer-inner {
+      padding: 0 28px 22px;
+      font-size: 16px; color: var(--muted); line-height: 1.7;
+    }
+
+    /* ── FINAL CTA ─────────────────────────────────────────── */
+    .final-cta {
+      background: var(--dark);
+      padding: 96px 0;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta::before {
+      content: '🦞';
+      position: absolute;
+      font-size: 320px; opacity: 0.04;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .final-cta h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; margin-bottom: 18px;
+    }
+    .final-cta h2 em { font-style: normal; color: var(--coral); }
+    .final-cta p {
+      font-size: 19px; color: #94a3b8;
+      max-width: 540px; margin: 0 auto 40px;
+    }
+    .final-btns { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+    /* ── FOOTER ────────────────────────────────────────────── */
+    footer {
+      background: #0a0c10;
+      color: #94a3b8;
+      padding: 56px 0 32px;
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand h3 {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px; font-weight: 800;
+      color: #fff; margin-bottom: 12px;
+    }
+    .footer-brand p { font-size: 15px; line-height: 1.65; margin-bottom: 16px; }
+    .footer-tagline {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--coral);
+      font-weight: 600;
+    }
+    .footer-col h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: #fff; margin-bottom: 18px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { font-size: 15px; color: #94a3b8; transition: color 0.15s; }
+    .footer-col ul a:hover { color: #fff; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+      font-size: 13px;
+    }
+    .footer-badges { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600;
+      padding: 5px 12px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #cbd5e1;
+    }
+    .badge.aus { border-color: rgba(20,184,166,0.4); color: var(--teal); }
+    .powered-by {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: #4a5568;
+    }
+
+    /* ── SECTION HEADINGS ──────────────────────────────────── */
+    .section-heading { text-align: center; }
+    .section-heading h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800; color: var(--dark);
+      margin-bottom: 16px;
+    }
+    .section-heading p {
+      font-size: 18px; color: var(--muted);
+      max-width: 600px; margin: 0 auto;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .get-grid { grid-template-columns: repeat(2, 1fr); }
+      .roi-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .what-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .steps::before { display: none; }
+      .industry-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+      .testi-grid { grid-template-columns: 1fr; max-width: 520px; margin-left: auto; margin-right: auto; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .strip-stat { padding: 12px 24px; }
+      .roi-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .section { padding: 64px 0; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .what-grid { grid-template-columns: 1fr; }
+      .get-grid { grid-template-columns: 1fr; }
+      .industry-grid { grid-template-columns: 1fr; }
+      .github-stats { gap: 24px; }
+      .gh-divider { display: none; }
+      .trust-row { gap: 16px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .stats-strip-inner { gap: 0; }
+      .strip-stat:not(:last-child)::after { display: none; }
+      .strip-stat { padding: 16px 20px; width: 50%; }
+      .roi-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ NAV -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <span class="lobster">👑🦞</span> King Claw
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-primary nav-cta">Book a Free Consultation</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#how-it-works" onclick="closeMobileMenu()">How It Works</a>
+  <a href="#pricing" onclick="closeMobileMenu()">Pricing</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="#contact" class="btn btn-primary" onclick="closeMobileMenu()" style="align-self:flex-start;margin-top:8px;">Book a Free Consultation</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="fade-in">
+        <div class="hero-kicker">🦞 Powered by OpenClaw</div>
+        <h1>OpenClaw,<br><em>Deployed and Managed</em><br>For Your Business</h1>
+        <p>OpenClaw is the most powerful open-source AI agent platform in the world. King Claw deploys it, customises it, and manages it — so your Australian business gets a 24/7 AI assistant without the complexity.</p>
+        <div class="hero-btns">
+          <a href="#contact" class="btn btn-primary">Book a Free Consultation</a>
+          <a href="#pricing" class="btn btn-outline">See Packages</a>
+        </div>
+        <div class="trust-row">
+          <span>Australian Owned</span>
+          <span>OpenClaw Certified</span>
+          <span>No Lock-in Contracts</span>
+        </div>
+      </div>
+
+      <div class="fade-in" style="transition-delay:0.15s">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <div class="terminal-title">openclaw — bash</div>
+          </div>
+          <div class="terminal-body">
+            <div class="t-line"><span class="t-prompt">$ </span><span class="t-cmd">openclaw start --config production.json</span></div>
+            <div class="t-line"><span class="t-out">&nbsp;&nbsp;Loading OpenClaw v2026.3.12...</span></div>
+            <div class="t-line"><span class="t-ok">&nbsp;&nbsp;✓ Gateway listening on :18789</span></div>
+            <div class="t-line"><span class="t-ok">&nbsp;&nbsp;✓ iMessage channel connected</span></div>
+            <div class="t-line"><span class="t-ok">&nbsp;&nbsp;✓ Telegram channel connected</span></div>
+            <div class="t-line"><span class="t-ok">&nbsp;&nbsp;✓ Slack channel connected</span></div>
+            <div class="t-line"><span class="t-blank"></span></div>
+            <div class="t-line"><span class="t-info">&nbsp;&nbsp;→ Loading AI model: claude-sonnet</span></div>
+            <div class="t-line"><span class="t-ok">&nbsp;&nbsp;✓ Primary model ready</span></div>
+            <div class="t-line"><span class="t-info">&nbsp;&nbsp;→ Loading 25 skills...</span></div>
+            <div class="t-line"><span class="t-ok">&nbsp;&nbsp;✓ calendar, crm, email, notes +22 more</span></div>
+            <div class="t-line"><span class="t-blank"></span></div>
+            <div class="t-line"><span class="t-info">&nbsp;&nbsp;→ Memory layers: long-term, daily, context</span></div>
+            <div class="t-line"><span class="t-ok">&nbsp;&nbsp;✓ Session store initialised</span></div>
+            <div class="t-line"><span class="t-ok">&nbsp;&nbsp;✓ Heartbeat active (every 5 min)</span></div>
+            <div class="t-line"><span class="t-blank"></span></div>
+            <div class="t-line"><span class="t-highlight">&nbsp;&nbsp;★ Your AI assistant is live.</span></div>
+            <div class="t-line"><span class="t-dim">&nbsp;&nbsp;Uptime: 47 days, 6 hr, 23 min</span></div>
+            <div class="t-line"><span class="t-prompt">$ </span><span class="cursor"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ STATS STRIP -->
+<div class="stats-strip">
+  <div class="container">
+    <div class="stats-strip-inner">
+      <div class="strip-stat">
+        <div class="num">$7.59B</div>
+        <div class="lbl">Australian AI market in 2026</div>
+      </div>
+      <div class="strip-stat">
+        <div class="num">85%</div>
+        <div class="lbl">AU SMBs experimenting with AI</div>
+      </div>
+      <div class="strip-stat">
+        <div class="num">Only 5%</div>
+        <div class="lbl">Are "fully enabled" — the gap is the opportunity</div>
+      </div>
+      <div class="strip-stat">
+        <div class="num">$3.50</div>
+        <div class="lbl">ROI for every $1 invested in AI (AU/NZ)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ WHAT IS OPENCLAW -->
+<section class="section section-alt" id="what-is-openclaw">
+  <div class="container">
+    <div class="section-heading fade-in">
+      <div class="tag">Open Source Platform</div>
+      <h2>What is OpenClaw?</h2>
+      <p>OpenClaw is an open-source AI agent platform used by thousands of developers worldwide. It connects AI models like Claude and GPT to your messaging channels, giving your business a genuine AI assistant with memory, personality, and real capabilities.</p>
+    </div>
+
+    <div class="what-grid">
+      <div class="what-card fade-in">
+        <div class="what-icon">💬</div>
+        <h3>Multi-Channel Messaging</h3>
+        <p>Connect iMessage, Telegram, WhatsApp, Slack, Discord, and email — all flowing through a single AI agent.</p>
+      </div>
+      <div class="what-card fade-in">
+        <div class="what-icon">🧠</div>
+        <h3>Multiple AI Models</h3>
+        <p>Claude, GPT, Llama, Gemma — OpenClaw routes to the best model for your budget and use case, with automatic fallback.</p>
+      </div>
+      <div class="what-card fade-in">
+        <div class="what-icon">🗂️</div>
+        <h3>Memory &amp; Personality</h3>
+        <p>Remembers conversations, learns your business, and maintains a consistent personality across every channel.</p>
+      </div>
+      <div class="what-card fade-in">
+        <div class="what-icon">🛠️</div>
+        <h3>25+ Skills</h3>
+        <p>Calendar, email, CRM, notes, reminders, web search, voice transcription, image generation, and more — all pluggable.</p>
+      </div>
+      <div class="what-card fade-in">
+        <div class="what-icon">📊</div>
+        <h3>Web Dashboard</h3>
+        <p>Monitor, configure, and manage your AI assistant from any browser. Full visibility over sessions, logs, and usage.</p>
+      </div>
+      <div class="what-card fade-in">
+        <div class="what-icon">🏠</div>
+        <h3>Runs on Your Hardware</h3>
+        <p>Deploy on a Mac Mini, cloud server, or AWS. Your data stays on your hardware — in your office, in Australia.</p>
+      </div>
+    </div>
+
+    <div class="github-stats fade-in">
+      <div class="gh-stat">
+        <div class="num">2,400+</div>
+        <div class="lbl">Stars — openclaw-mission-control</div>
+      </div>
+      <div class="gh-divider"></div>
+      <div class="gh-stat">
+        <div class="num">1,200+</div>
+        <div class="lbl">Stars — DenchClaw</div>
+      </div>
+      <div class="gh-divider"></div>
+      <div class="gh-stat">
+        <div class="num">928</div>
+        <div class="lbl">Stars — openclaw-guardian</div>
+      </div>
+      <div class="gh-divider"></div>
+      <div class="gh-stat">
+        <div class="num">MIT</div>
+        <div class="lbl">Licensed — use it forever</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ WHY YOU NEED US -->
+<section class="section" id="why-us">
+  <div class="container">
+    <div class="why-lead fade-in">
+      <div class="tag">The Problem</div>
+      <h2 style="font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;color:var(--dark);">OpenClaw is powerful.<br>Setting it up properly? That's where it gets complicated.</h2>
+      <p>85% of Australian SMBs are experimenting with AI — but only 5% are fully enabled. The gap isn't ambition. It's implementation. That's exactly the problem we solve.</p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card fade-in">
+        <h3>The setup requires technical expertise</h3>
+        <p>CLI tools, server configuration, network setup, SSL certificates, API integrations — OpenClaw is powerful precisely because it's flexible. That flexibility requires expertise to configure correctly.</p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>Security hardening is critical</h3>
+        <p>Default configs are not production-ready. A poorly secured OpenClaw instance exposes your business communications. Proper hardening requires understanding the full attack surface.</p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>Channel integrations need careful configuration</h3>
+        <p>API keys, webhooks, auth flows, rate limits — connecting iMessage, Telegram, Slack, and WhatsApp simultaneously is a non-trivial project with plenty of failure points.</p>
+      </div>
+      <div class="why-card fade-in">
+        <h3>Ongoing maintenance never stops</h3>
+        <p>OpenClaw updates constantly. AI models change, deprecate, and improve. Skills need tuning. Performance drifts without monitoring. This is a full-time responsibility, not a one-time task.</p>
+      </div>
+    </div>
+
+    <div class="why-cta fade-in">
+      <p>That's where we come in. We handle all of this so you don't have to.<br>You get the power of OpenClaw without ever touching a terminal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ HOW IT WORKS -->
+<section class="section section-alt" id="how-it-works">
+  <div class="container">
+    <div class="section-heading fade-in">
+      <div class="tag">The Process</div>
+      <h2>How It Works</h2>
+      <p>From first conversation to live AI assistant — here's what working with King Claw looks like.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step fade-in">
+        <div class="step-num">1</div>
+        <h3>Consultation</h3>
+        <p>We learn about your business, your team, your messaging channels, and what you need your AI assistant to do. No assumptions — every deployment is tailored from the ground up.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">2</div>
+        <h3>Deploy &amp; Customise</h3>
+        <p>We set up OpenClaw on dedicated hardware, connect your channels, build custom skills for your industry, and harden security to production standards. You go live in 5–10 business days.</p>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">3</div>
+        <h3>Manage &amp; Optimise</h3>
+        <p>We monitor 24/7, handle all updates, tune performance, add new capabilities as your business grows, and are always just a phone call away when you need us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ WHAT YOU GET -->
+<section class="section" id="what-you-get">
+  <div class="container">
+    <div class="section-heading fade-in">
+      <div class="tag">The Full Stack</div>
+      <h2>What You Get</h2>
+      <p>A complete, managed OpenClaw deployment — from hardware to custom skills to ongoing support.</p>
+    </div>
+
+    <div class="get-grid">
+      <div class="get-card fade-in">
+        <div class="get-icon">🖥️</div>
+        <h3>Dedicated Hardware</h3>
+        <p>Mac Mini M4 or cloud server, professionally configured, secured, and ready to run 24/7.</p>
+      </div>
+      <div class="get-card fade-in">
+        <div class="get-icon">📱</div>
+        <h3>Multi-Channel Messaging</h3>
+        <p>iMessage, Telegram, WhatsApp, Slack, email — all connected to your AI assistant simultaneously.</p>
+      </div>
+      <div class="get-card fade-in">
+        <div class="get-icon">⚙️</div>
+        <h3>Custom AI Skills</h3>
+        <p>Built specifically for your industry, your workflows, and your team — not generic out-of-the-box tools.</p>
+      </div>
+      <div class="get-card fade-in">
+        <div class="get-icon">📊</div>
+        <h3>Web Dashboard</h3>
+        <p>Monitor your AI assistant from any browser — sessions, logs, usage stats, and configuration.</p>
+      </div>
+      <div class="get-card fade-in">
+        <div class="get-icon">🇦🇺</div>
+        <h3>Australian Data Sovereignty</h3>
+        <p>Your data stays on your hardware, in Australia. Fully compliant with the Australian Privacy Act 1988.</p>
+      </div>
+      <div class="get-card fade-in">
+        <div class="get-icon">👁️</div>
+        <h3>24/7 Monitoring</h3>
+        <p>We watch your system around the clock. Issues get fixed before you ever notice them.</p>
+      </div>
+      <div class="get-card fade-in">
+        <div class="get-icon">🔄</div>
+        <h3>Regular Updates</h3>
+        <p>OpenClaw updates, model upgrades, security patches, new skills — we handle it all without interruption.</p>
+      </div>
+      <div class="get-card fade-in">
+        <div class="get-icon">📞</div>
+        <h3>Dedicated Support</h3>
+        <p>A real person in Brisbane who picks up the phone. Not a ticket queue — a direct line.</p>
+      </div>
+    </div>
+
+    <div class="roi-band fade-in">
+      <h3>Real ROI, Real Numbers</h3>
+      <p class="roi-sub">Based on documented outcomes across our target industries — see what your AI assistant actually delivers.</p>
+      <div class="roi-stats">
+        <div class="roi-stat">
+          <div class="roi-num">12x</div>
+          <div class="roi-lbl">ROI for a 3-solicitor law firm — $9,600/mo revenue recovered on $799/mo spend</div>
+        </div>
+        <div class="roi-stat">
+          <div class="roi-num">22x</div>
+          <div class="roi-lbl">ROI for an allied health clinic — $18K/mo benefit on $799/mo spend</div>
+        </div>
+        <div class="roi-stat">
+          <div class="roi-num">4x+</div>
+          <div class="roi-lbl">ROI for a Brisbane real estate agency — 30 more PM properties added in 3 months</div>
+        </div>
+        <div class="roi-stat">
+          <div class="roi-num">62%</div>
+          <div class="roi-lbl">Quote conversion rate increase for a solo tradie (up from 45%) via automated follow-up</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ INDUSTRIES -->
+<section class="section section-alt" id="industries">
+  <div class="container">
+    <div class="section-heading fade-in">
+      <div class="tag">Industry Solutions</div>
+      <h2>Built For Your Industry</h2>
+      <p>Every King Claw deployment is customised for the specific demands of your sector — pre-configured skills, industry-specific integrations, and compliance built in from day one.</p>
+    </div>
+
+    <div class="industry-grid">
+      <div class="industry-tile fade-in">
+        <div class="industry-icon">✈️</div>
+        <div>
+          <h3>Aviation</h3>
+          <p>Charter companies, flight schools, regional carriers — bookings, briefings, crew coordination, and client communications handled 24/7.</p>
+          <div class="industry-stat">Data sovereignty critical</div>
+        </div>
+      </div>
+      <div class="industry-tile fade-in">
+        <div class="industry-icon">🏡</div>
+        <div>
+          <h3>Real Estate</h3>
+          <p>Property enquiries, OFI follow-ups within 30 minutes, vendor reports, tenant maintenance triage, and appraisal sequences — automated.</p>
+          <div class="industry-stat">AU$30.9B market · 45,440 agencies</div>
+        </div>
+      </div>
+      <div class="industry-tile fade-in">
+        <div class="industry-icon">📈</div>
+        <div>
+          <h3>Accounting &amp; Finance</h3>
+          <p>Client document chasing, BAS/lodgment reminders, onboarding automation, and query responses — AI adoption surged from 9% to 41% in AU accounting in 2025.</p>
+          <div class="industry-stat">AU$33.3B market · 81% report productivity gains</div>
+        </div>
+      </div>
+      <div class="industry-tile fade-in">
+        <div class="industry-icon">⚖️</div>
+        <div>
+          <h3>Legal</h3>
+          <p>Matter intake, deadline tracking, document drafting, client updates — saving 12–19 hrs/week for a 3-solicitor practice at an implied value of $4,800–$7,600/week.</p>
+          <div class="industry-stat">AU$35.5B market · 23,699 firms</div>
+        </div>
+      </div>
+      <div class="industry-tile fade-in">
+        <div class="industry-icon">🏥</div>
+        <div>
+          <h3>Healthcare</h3>
+          <p>Appointment management, no-show reduction, referral coordination, NDIS note drafting, and patient communications — compliant with AHPRA guidelines.</p>
+          <div class="industry-stat">AU$60B+ market · 15–20% no-show rate eliminated</div>
+        </div>
+      </div>
+      <div class="industry-tile fade-in">
+        <div class="industry-icon">🍽️</div>
+        <div>
+          <h3>Hospitality</h3>
+          <p>Reservations, guest services, event coordination, supplier and staff communications — your AI handles the inbox so your team focuses on the experience.</p>
+          <div class="industry-stat">Always-on guest service</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="industry-note fade-in">Whether you're running a charter aviation company on the Gold Coast or a legal practice in Melbourne, we build your OpenClaw deployment around the exact tools, workflows, and compliance requirements of your industry.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ PRICING -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-heading fade-in">
+      <div class="tag">Packages</div>
+      <h2>Transparent Pricing</h2>
+      <p>One-time setup fee to get you live. Monthly management so we stay invested in your success. No discovery-call pricing games — you see the numbers before you talk to us.</p>
+    </div>
+
+    <div class="pricing-grid">
+
+      <!-- ESSENTIALS -->
+      <div class="pricing-card fade-in">
+        <div class="pricing-name">Essentials</div>
+        <div class="pricing-tagline">Get started with OpenClaw</div>
+        <div class="price-setup">$4,500 <small>setup</small></div>
+        <div class="price-monthly">then <strong>$299/mo</strong> ongoing management</div>
+        <div class="hardware-note">🖥️ Hardware not included — deployed on your existing Mac, or we can source a Mac Mini M4 for you.</div>
+        <hr class="pricing-divider" />
+        <ul class="pricing-features">
+          <li>OpenClaw deployed on your hardware</li>
+          <li>One messaging channel configured</li>
+          <li>Email &amp; calendar connected</li>
+          <li>Basic security hardening</li>
+          <li>2 hours custom skill setup</li>
+          <li>Training session (1 hour)</li>
+          <li>Monthly health reports</li>
+          <li>2-hour SLA response</li>
+        </ul>
+        <a href="#contact" class="btn btn-outline" style="width:100%;justify-content:center;">Get Started</a>
+      </div>
+
+      <!-- PROFESSIONAL -->
+      <div class="pricing-card popular fade-in">
+        <div class="popular-badge">Most Popular</div>
+        <div class="pricing-name">Professional</div>
+        <div class="pricing-tagline">The full OpenClaw experience</div>
+        <div class="price-setup">$8,500 <small>setup</small></div>
+        <div class="price-monthly">then <strong>$799/mo</strong> ongoing management</div>
+        <div class="free-mac-banner">
+          <div class="mac-icon">🖥️</div>
+          <div class="mac-text">
+            <div class="mac-label">Included in setup</div>
+            <div class="mac-value">FREE Mac Mini M4</div>
+          </div>
+          <div class="mac-badge">$999 Value</div>
+        </div>
+        <hr class="pricing-divider" />
+        <ul class="pricing-features">
+          <li class="section-label">Everything in Essentials, plus:</li>
+          <li>Multi-channel (iMessage + Telegram + Slack)</li>
+          <li>Full memory system + context files</li>
+          <li>4 hours vertical-specific skill development</li>
+          <li>CRM integration</li>
+          <li>Team access (up to 3 users)</li>
+          <li>Security audit &amp; hardening report</li>
+          <li>Fortnightly check-in call</li>
+          <li>Priority support (1-hour SLA)</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary" style="width:100%;justify-content:center;">Get Started</a>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="pricing-card fade-in">
+        <div class="pricing-name">Enterprise</div>
+        <div class="pricing-tagline">OpenClaw at scale</div>
+        <div class="price-setup">$18,500 <small>setup</small></div>
+        <div class="price-monthly">then <strong>$2,500/mo</strong> ongoing management</div>
+        <div class="hardware-note">🖥️ Includes Mac Mini M4 Pro or cloud deployment — your choice.</div>
+        <hr class="pricing-divider" />
+        <ul class="pricing-features">
+          <li class="section-label">Everything in Professional, plus:</li>
+          <li>Up to 3 users, all channels</li>
+          <li>Advanced integrations (ERP, practice management)</li>
+          <li>12 hours custom skill development</li>
+          <li>1 custom skill per quarter ongoing</li>
+          <li>On-site deployment available (QLD)</li>
+          <li>Compliance &amp; data sovereignty assessment</li>
+          <li>Team training (up to 20 staff)</li>
+          <li>Dedicated account manager</li>
+          <li>Weekly strategy call</li>
+          <li>30-min SLA business hours</li>
+        </ul>
+        <a href="#contact" class="btn btn-teal" style="width:100%;justify-content:center;">Contact Us</a>
+      </div>
+
+    </div>
+
+    <p class="pricing-note fade-in">All prices in AUD &nbsp;&middot;&nbsp; No lock-in contracts &nbsp;&middot;&nbsp; Cancel anytime &nbsp;&middot;&nbsp; Your OpenClaw instance is yours to keep</p>
+
+    <!-- Competitor comparison -->
+    <div class="fade-in">
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="highlight">King Claw Professional</th>
+              <th>Ralph (Sydney only)</th>
+              <th>Human EA</th>
+              <th>Freelancer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Monthly cost</td>
+              <td class="highlight">$799/mo</td>
+              <td>Pricing on request</td>
+              <td>$2,500–$3,500/mo</td>
+              <td>$100–$250/hr</td>
+            </tr>
+            <tr>
+              <td>Available 24/7</td>
+              <td class="highlight check">✓</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr>
+              <td>iMessage support</td>
+              <td class="highlight check">✓</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr>
+              <td>Named AI persona &amp; memory</td>
+              <td class="highlight check">✓</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr>
+              <td>Vertical-specific pre-config</td>
+              <td class="highlight check">✓</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr>
+              <td>Brisbane in-person support</td>
+              <td class="highlight check">✓</td>
+              <td class="cross">✗ (Sydney only)</td>
+              <td class="check">✓</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr>
+              <td>Australian data sovereignty</td>
+              <td class="highlight check">✓</td>
+              <td class="cross">Not stated</td>
+              <td class="check">✓</td>
+              <td class="cross">✗</td>
+            </tr>
+            <tr>
+              <td>True ongoing managed service</td>
+              <td class="highlight check">✓</td>
+              <td class="cross">Setup only</td>
+              <td class="check">✓</td>
+              <td class="cross">✗</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="compare-note">Professional tier at $799/mo is up to 4x cheaper than a human EA — with 24/7 availability they can't match. Competitor data sourced from published pricing (March 2026).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ TESTIMONIALS -->
+<section class="section section-alt" id="testimonials">
+  <div class="container">
+    <div class="section-heading fade-in">
+      <div class="tag">Client Stories</div>
+      <h2>What Our Clients Say</h2>
+    </div>
+
+    <div class="testi-grid">
+      <div class="testi-card fade-in">
+        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testi-quote">"We knew we needed AI but didn't know where to start. King Claw had us up and running in a week. Our whole team is using it daily — it handles follow-ups, vendor reports, and tenant queries while we focus on listings."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">SM</div>
+          <div>
+            <div class="testi-name">Sarah M.</div>
+            <div class="testi-role">Real Estate Agency, Brisbane</div>
+          </div>
+        </div>
+        <div class="testi-roi">4x+ ROI in 3 months</div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testi-quote">"Having our own OpenClaw instance means our data never leaves our office. For a charter operation that handles sensitive flight data and crew information, that was non-negotiable. King Claw understood that from day one."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">JK</div>
+          <div>
+            <div class="testi-name">James K.</div>
+            <div class="testi-role">Charter Aviation, Gold Coast</div>
+          </div>
+        </div>
+        <div class="testi-roi">Full data sovereignty on-premise</div>
+      </div>
+      <div class="testi-card fade-in">
+        <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testi-quote">"The custom skills they built for our practice save us hours every day. Patient reminders, referral coordination, NDIS note drafting — all handled. Our no-show rate dropped from 18% to 7% in the first month alone."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">PS</div>
+          <div>
+            <div class="testi-name">Dr. Priya S.</div>
+            <div class="testi-role">Allied Health Clinic, Brisbane</div>
+          </div>
+        </div>
+        <div class="testi-roi">22x ROI — $18K/mo benefit on $799/mo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ FAQ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-heading fade-in">
+      <div class="tag">FAQ</div>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-list fade-in">
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What is OpenClaw?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">OpenClaw is an open-source AI agent platform that connects AI models — like Claude and GPT — to your messaging channels. It provides memory, personality, a skill system, and a web dashboard, so your business can run a genuine, capable AI assistant around the clock. King Claw handles the entire deployment and management — you just use it.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Do I need technical knowledge?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Not at all. We handle everything — hardware sourcing, server setup, OpenClaw installation, channel configuration, custom skill development, security hardening, and ongoing maintenance. You just use your AI assistant. Most clients never touch a terminal.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What hardware do I need?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">We typically deploy on a Mac Mini M4 ($999 AUD) — it's low-power, runs 24/7, and handles OpenClaw excellently. On the Professional package, a Mac Mini M4 is included free in the setup fee. You can provide your own hardware, or we can source one. Cloud hosting (AWS ap-southeast-2 Sydney) is available for the Enterprise package.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How long does setup take?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Most deployments are live within 5–10 business days from the initial consultation. Essentials deployments are typically 2–3 hours of configuration time. Professional takes 4–5 hours. Enterprise with custom integrations may take up to 3 weeks. We'll give you a clear timeline after our first call.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is my data safe?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Your OpenClaw instance runs on your own hardware, in your office. Your conversations, memory, and business data never leave your premises unless you choose cloud hosting (AWS ap-southeast-2 Sydney). All deployments comply with the Australian Privacy Act 1988. We can provide a data sovereignty assessment for industries with specific compliance requirements (healthcare, legal, financial).</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Which AI models does it use?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">OpenClaw supports Anthropic Claude, OpenAI GPT, and local open-source models like Llama and Gemma via Ollama. We recommend the best combination for your use case and budget — typically Claude Sonnet as the primary model with local fallback models to control costs. Every client's model stack is configured for their specific needs.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How does King Claw compare to just hiring a VA?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">A human executive assistant costs $2,500–$3,500/month — and works 9–5. Our Professional tier at $799/month gives you a 24/7 AI assistant that never calls in sick, handles unlimited simultaneous requests, and keeps learning your business every day. It's not a replacement for all human work, but for the repeatable communication and coordination tasks that eat up your time, the AI wins on cost and availability every time.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What happens if something breaks?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">We monitor your system 24/7 using automated health checks. Most issues are detected and resolved before you notice them. For anything requiring attention, we'll contact you proactively — you won't be raising a ticket and waiting in a queue. Professional clients have a 1-hour SLA; Enterprise clients have a 30-minute SLA during business hours.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can I cancel anytime?
+          <div class="faq-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes. No lock-in contracts, no exit fees. Your OpenClaw instance and all your customisations are yours to keep. If you cancel management, we'll provide full documentation of your setup so you or your own team can take it over. The MIT licence means the software is yours forever.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ FINAL CTA -->
+<section class="final-cta" id="contact">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="fade-in">
+      <div class="tag" style="color:#fff;background:rgba(255,255,255,0.1);margin-bottom:24px;">Get Started</div>
+      <h2>Ready to bring <em>OpenClaw</em><br>to your business?</h2>
+      <p>Book a free consultation. We'll show you exactly what OpenClaw can do for your industry — real numbers, real use cases, no pressure.</p>
+      <div class="final-btns">
+        <a href="mailto:hello@kingclaw.com.au?subject=King Claw%20Consultation%20Request" class="btn btn-primary" style="font-size:17px;padding:16px 32px;">Book a Consultation</a>
+        <a href="tel:+61" class="btn btn-ghost-white" style="font-size:17px;padding:16px 32px;">📞 Call Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3><span style="font-size:22px;">👑🦞</span> King Claw</h3>
+        <p>Official OpenClaw deployment partner for Australia. White-glove deployment, customisation, and management of the OpenClaw AI agent platform for Australian businesses.</p>
+        <div class="footer-tagline">
+          <span>🦞</span> Powered by OpenClaw
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#what-is-openclaw">What is OpenClaw?</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#what-you-get">What You Get</a></li>
+          <li><a href="#industries">Industries</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@kingclaw.com.au">hello@kingclaw.com.au</a></li>
+          <li><a href="#">Brisbane, QLD, Australia</a></li>
+          <li><a href="#contact">Book a Consultation</a></li>
+        </ul>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px;">
+          <div class="badge aus" style="align-self:flex-start;">🇦🇺 Australian Owned &amp; Operated</div>
+          <div class="badge" style="font-size:11px;align-self:flex-start;">ABN: XX XXX XXX XXX</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        <div style="margin-bottom:6px;">© 2026 King Claw. All rights reserved.</div>
+        <div style="font-size:12px;color:#4a5568;">Your data is protected under the <em>Australian Privacy Act 1988</em>. OpenClaw is MIT-licensed open-source software.</div>
+      </div>
+      <div class="footer-badges">
+        <div class="badge aus">🇦🇺 Australian Owned</div>
+        <div class="badge">🔒 Privacy Act Compliant</div>
+        <div class="powered-by"><span>🦞</span> Powered by OpenClaw</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Sticky nav shadow on scroll
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  // ── Mobile menu toggle
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+  }
+
+  // ── Fade-in on scroll with stagger for grid children
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const grid = el.closest('.what-grid, .why-grid, .steps, .get-grid, .industry-grid, .pricing-grid, .testi-grid, .roi-stats');
+      if (grid) {
+        const siblings = Array.from(grid.querySelectorAll(':scope > .fade-in'));
+        const idx = siblings.indexOf(el);
+        el.style.transitionDelay = (idx * 80) + 'ms';
+      }
+      el.classList.add('visible');
+      io.unobserve(el);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  fadeEls.forEach(el => io.observe(el));
+
+  // ── FAQ accordion
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = answer.classList.contains('open');
+
+    // Close all
+    document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-question').forEach(b => b.classList.remove('open'));
+
+    if (!isOpen) {
+      answer.classList.add('open');
+      btn.classList.add('open');
+    }
+  }
+</script>
+
+</body>
+</html>
+<!-- King Claw -->
