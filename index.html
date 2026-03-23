@@ -1366,13 +1366,27 @@ a.link-grow:hover::after { width: 100%; }
 <!-- ═══════════════════════════════ JAVASCRIPT ═══════════════════════════════ -->
 <script>
 /* ── Loader ── */
+// Force scroll to top on load (fixes mobile starting halfway)
+window.scrollTo(0, 0);
+document.documentElement.scrollTop = 0;
+document.body.scrollTop = 0;
+history.scrollRestoration = 'manual';
+
+// Prevent scroll while loader is visible
+document.body.style.overflow = 'hidden';
+
 window.addEventListener('load', () => {
+  // Ensure we're at the top
+  window.scrollTo(0, 0);
+
   setTimeout(() => {
     document.getElementById('loader').classList.add('hide');
+    // Re-enable scrolling
+    document.body.style.overflow = '';
     setTimeout(() => {
       document.getElementById('loader').style.display = 'none';
-    }, 800);
-  }, 1300);
+    }, 600);
+  }, 1500);
 });
 
 /* ── Custom cursor ── */
